@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leihou.so.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.leihou.so.entity.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+    <result column="channel" jdbcType="VARCHAR" property="channel" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="role" jdbcType="INTEGER" property="role" />
+    <result column="head_img_url" jdbcType="VARCHAR" property="headImgUrl" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="remark_name" jdbcType="VARCHAR" property="remarkName" />
+  </resultMap>
+</mapper>
