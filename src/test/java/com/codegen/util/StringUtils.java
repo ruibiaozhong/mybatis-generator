@@ -97,6 +97,6 @@ public class StringUtils {
 	 * @return 实体名称
 	 */
 	public static String getModelName(String tableName) {
-		return StringUtils.toUpperCaseFirstOne(tableName.substring(2, tableName.length()));
+		return underScoreCase2CamelCase(StringUtils.toUpperCaseFirstOne(tableName.substring(2, tableName.length())));
 	}
 }
