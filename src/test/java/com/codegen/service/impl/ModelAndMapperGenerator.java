@@ -1,24 +1,16 @@
 package com.codegen.service.impl;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import com.codegen.service.CodeGeneratorConfig;
-import com.codegen.util.JsonUtil;
 import org.mybatis.generator.api.GeneratedJavaFile;
 import org.mybatis.generator.api.GeneratedXmlFile;
 import org.mybatis.generator.api.MyBatisGenerator;
-import org.mybatis.generator.api.ProgressCallback;
-import org.mybatis.generator.api.dom.java.CompilationUnit;
+import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
-import org.mybatis.generator.api.dom.xml.Attribute;
-import org.mybatis.generator.api.dom.xml.Document;
-import org.mybatis.generator.api.dom.xml.Element;
-import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.Context;
 import org.mybatis.generator.config.GeneratedKey;
@@ -37,9 +29,11 @@ import com.codegen.util.StringUtils;
  */
 public class ModelAndMapperGenerator extends CodeGeneratorManager implements CodeGenerator {
 
+	public static Map<String, List<Field>> map = new HashMap<>();
+
 	@Override
 	public void genCode(String tableName) {
-		String modelName = StringUtils.getModelName(tableName);
+		final String modelName = StringUtils.getModelName(tableName);
 		Context initConfig = initConfig(tableName, modelName);
 		List<String> warnings = null;
 		MyBatisGenerator generator = null;
@@ -60,13 +54,8 @@ public class ModelAndMapperGenerator extends CodeGeneratorManager implements Cod
 		generatedJavaFileList.stream().forEach(generatedJavaFile -> {
 			if (CodeGeneratorConfig.MODEL_PACKAGE.equals(generatedJavaFile.getTargetPackage())) {
 				TopLevelClass topLevelClass = (TopLevelClass)generatedJavaFile.getCompilationUnit();
-				topLevelClass.getFields().stream().forEach(field -> {
-					System.out.println(field.getName());
-				});
-
-
+				map.put(modelName, topLevelClass.getFields());
 			}
-
 		});
 
 
@@ -77,12 +66,6 @@ public class ModelAndMapperGenerator extends CodeGeneratorManager implements Cod
 		if (generator == null || generatedJavaFileList.isEmpty() || generatedXmlFileList.isEmpty()) {
 			throw new RuntimeException("Model 和  Mapper 生成失败, warnings: " + warnings);
 		}
-		
-		if (StringUtils.isNullOrEmpty(modelName)) {
-			modelName = tableNameConvertUpperCamel(tableName);
-		}
-
-
 
 		logger.info(modelName, "{}.java 生成成功!");
 		logger.info(modelName, "{}Mapper.java 生成成功!");

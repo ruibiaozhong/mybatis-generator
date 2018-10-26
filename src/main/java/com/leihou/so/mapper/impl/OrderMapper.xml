@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leihou.so.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.leihou.so.entity.Order">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_num" jdbcType="CHAR" property="orderNum" />
+    <result column="check_in_num" jdbcType="CHAR" property="checkInNum" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="space_id" jdbcType="INTEGER" property="spaceId" />
+  </resultMap>
+</mapper>

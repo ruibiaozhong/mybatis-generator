@@ -101,15 +101,7 @@ public class CodeGeneratorManager extends CodeGeneratorConfig {
 		genCodeByTableName(false, tableNames);
 	}
 	
-	/**
-	 * 生成自定义名称代码
-	 * eg: 
-	 * 	genCode("gen_test_demo", "IDemo");  gen_test_demo ==> IDemo
-	 * @param tableName 表名, 只能单表
-	 */
-	public void genCodeWithCustomName(String tableName, String customModelName) {
-		genCodeByTableName(tableName, customModelName, false);
-	}
+
 	
 	/**
 	 * 下划线转成驼峰, 首字符为小写
@@ -184,7 +176,7 @@ public class CodeGeneratorManager extends CodeGeneratorConfig {
 	 */
 	private void genCodeByTableName(boolean flag, String ...tableNames) {
 		for (String tableName : tableNames) {
-			genCodeByTableName(tableName, null, flag);
+			genCodeByTableName(tableName);
 		}
 	}
 	
@@ -193,14 +185,12 @@ public class CodeGeneratorManager extends CodeGeneratorConfig {
 	 * 如表名为 gen_test_demo, 自定义 modelName 为 IDemo
 	 * 将生成  IDemo & IDemoMapper & IDemoService & IDemoServiceImpl & IDemoController
 	 * @param tableName 表名
-	 * @param modelName 实体类名
-	 * @param flag 标志
 	 */
-	private void genCodeByTableName(String tableName, String modelName, boolean flag) {
-		if (flag) {
-			modelName = getDefModelName(tableName);
-		}
+	private void genCodeByTableName(String tableName) {
 
+		new ModelAndMapperGenerator().genCode(tableName);
+		new ServiceGenerator().genCode(tableName);
+		new ControllerGenerator().genCode(tableName);
 	}
 	
 	/**

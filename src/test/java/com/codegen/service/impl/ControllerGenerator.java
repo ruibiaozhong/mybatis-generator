@@ -3,6 +3,7 @@ package com.codegen.service.impl;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.codegen.service.CodeGenerator;
@@ -11,7 +12,12 @@ import com.codegen.service.CodeGeneratorManager;
 import com.codegen.util.StringUtils;
 import com.google.common.base.CaseFormat;
 
+import com.google.gson.internal.LinkedTreeMap;
 import freemarker.template.Configuration;
+import org.mybatis.generator.api.dom.java.Field;
+
+import javax.persistence.Id;
+
 /**
  * Controller层 代码生成器
  * Created by zhh on 2017/09/20.
@@ -57,9 +63,45 @@ public class ControllerGenerator extends CodeGeneratorManager implements CodeGen
         data.put("modelNameUpperCamel", modelNameUpperCamel);
         data.put("modelNameLowerCamel", CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, modelNameUpperCamel));
         data.put("basePackage", BASE_PACKAGE);
+		data.put("tableName", tableName);
 
 
+		List<Field> fieldList = ModelAndMapperGenerator.map.get(modelName);
+
+
+		LinkedTreeMap<String, String> map = new LinkedTreeMap<>();
+		fieldList.stream().forEach(field -> {
+			field.getAnnotations().stream().filter(item -> "@Id".equals(item)).findFirst().ifPresent(item -> data.put("id", field.getName()));
+
+			map.put(field.getName(), field.getType().getShortName());
+		});
+
+		data.put("attribute", map);
 
 		return data;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
